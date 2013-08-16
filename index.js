@@ -1,0 +1,170 @@
+
+var extend = require('extend')
+  , keycode = require('keycode');
+
+
+/**
+ * Expose `createEvent`.
+ */
+
+module.exports = !!document.createEvent
+  ? createEvent
+  : createIeEvent;
+
+
+/**
+ * Default options.
+ */
+
+var defaults = {
+  alt        : false,
+  bubbles    : true,
+  button     : 0,
+  cancelable : true,
+  clientX    : 0,
+  clientY    : 0,
+  ctrl       : false,
+  detail     : 1,
+  key        : 0,
+  meta       : false,
+  screenX    : 0,
+  screenY    : 0,
+  shift      : false,
+  view       : window
+};
+
+
+/**
+ * Create a non-IE event object.
+ *
+ * @param {String} type
+ * @param {Object} options
+ */
+
+function createEvent (type, options) {
+  switch (type) {
+    case 'dblclick':
+    case 'click':
+      return createMouseEvent(type, options);
+    case 'keydown':
+    case 'keyup':
+      return createKeyboardEvent(type, options);
+  }
+}
+
+
+/**
+ * Create a non-IE mouse event.
+ *
+ * @param {String} type
+ * @param {Object} options
+ */
+
+function createMouseEvent (type, options) {
+  options = clean(type, options);
+  var e = document.createEvent('MouseEvent');
+  e.initMouseEvent(
+    type,
+    options.bubbles,    // bubbles?
+    options.cancelable, // cancelable?
+    window,             // view
+    options.detail,     // detail
+    options.screenX,    // screenX
+    options.screenY,    // screenY
+    options.clientX ,   // clientX
+    options.clientY,    // clientY
+    options.ctrl,       // ctrlKey
+    options.alt,        // altKey
+    options.shift,      // shiftKey
+    options.meta,       // metaKey
+    options.button      // button
+  );
+  return e;
+}
+
+
+/**
+ * Create a non-IE keyboard event.
+ *
+ * @param {String} type
+ * @param {Object} options
+ */
+
+function createKeyboardEvent (type, options) {
+  options = clean(type, options);
+  var e = document.createEvent('KeyboardEvent');
+  (e.initKeyEvent || e.initKeyboardEvent).call(
+    e,
+    type,
+    options.bubbles,    // bubbles?
+    options.cancelable, // cancelable?
+    window,             // view
+    options.ctrl,       // ctrlKey
+    options.alt,        // altKey
+    options.shift,      // shiftKey
+    options.meta,       // metaKey
+    options.key,        // keyCode
+    options.key         // charCode
+  );
+
+  // super hack: http://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key/10520017#10520017
+  if (e.keyCode !== options.key) {
+    Object.defineProperty(e, 'keyCode', {
+      get: function () { return options.key; }
+    });
+    Object.defineProperty(e, 'charCode', {
+      get: function () { return options.key; }
+    });
+    Object.defineProperty(e, 'which', {
+      get: function () { return options.key; }
+    });
+  }
+
+  return e;
+}
+
+
+/**
+ * Create an IE event. Surprisingly nicer API, eh?
+ *
+ * @param {String} type
+ * @param {Object} options
+ */
+
+function createIeEvent (type, options) {
+  options = clean(type, options);
+  var e = document.createEventObject({
+    altKey     : options.alt,
+    bubbles    : options.bubbles,
+    button     : options.button,
+    cancelable : options.cancelable,
+    clientX    : options.clientX,
+    clientY    : options.clientY,
+    ctrlKey    : options.ctrl,
+    detail     : options.detail,
+    metaKey    : options.meta,
+    screenX    : options.screenX,
+    screenY    : options.screenY,
+    shiftKey   : options.shift,
+    keyCode    : options.key,
+    charCode   : options.key,
+    view       : window
+  });
+  return e;
+}
+
+
+/**
+ * Back an `options` object by defaults, and convert some convenience features.
+ *
+ * @param {String} type
+ * @param {Object} options
+ * @return {Object} [description]
+ */
+
+function clean (type, options) {
+  options = extend({}, defaults, options);
+  if ('dblclick' === type) options.detail = 2;
+  if ('string' === typeof options.key) options.key = keycode(options.key);
+  return options;
+}
