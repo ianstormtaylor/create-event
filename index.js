@@ -67,7 +67,7 @@ function createMouseEvent (type, options) {
     type,
     options.bubbles,    // bubbles?
     options.cancelable, // cancelable?
-    window,             // view
+    options.view,       // view
     options.detail,     // detail
     options.screenX,    // screenX
     options.screenY,    // screenY
@@ -98,7 +98,7 @@ function createKeyboardEvent (type, options) {
     type,
     options.bubbles,    // bubbles?
     options.cancelable, // cancelable?
-    window,             // view
+    options.view,       // view
     options.ctrl,       // ctrlKey
     options.alt,        // altKey
     options.shift,      // shiftKey
@@ -148,7 +148,7 @@ function createIeEvent (type, options) {
     shiftKey   : options.shift,
     keyCode    : options.key,
     charCode   : options.key,
-    view       : window
+    view       : options.view
   });
   return e;
 }
