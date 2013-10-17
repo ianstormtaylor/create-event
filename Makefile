@@ -5,9 +5,9 @@ components: component.json
 	@component install --dev
 
 clean:
-	rm -fr build components
+	@rm -fr build components
 
 test: build
-	open test/index.html
+	@open test/index.html
 
 .PHONY: clean test

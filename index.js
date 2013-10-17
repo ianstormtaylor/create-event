@@ -135,23 +135,22 @@ function createKeyboardEvent (type, options) {
 
 function createIeEvent (type, options) {
   options = clean(type, options);
-  var e = document.createEventObject({
-    altKey     : options.alt,
-    bubbles    : options.bubbles,
-    button     : options.button,
-    cancelable : options.cancelable,
-    clientX    : options.clientX,
-    clientY    : options.clientY,
-    ctrlKey    : options.ctrl,
-    detail     : options.detail,
-    metaKey    : options.meta,
-    screenX    : options.screenX,
-    screenY    : options.screenY,
-    shiftKey   : options.shift,
-    keyCode    : options.key,
-    charCode   : options.key,
-    view       : options.view
-  });
+  var e = document.createEventObject();
+  e.altKey = options.alt;
+  e.bubbles = options.bubbles;
+  e.button = options.button;
+  e.cancelable = options.cancelable;
+  e.clientX = options.clientX;
+  e.clientY = options.clientY;
+  e.ctrlKey = options.ctrl;
+  e.detail = options.detail;
+  e.metaKey = options.meta;
+  e.screenX = options.screenX;
+  e.screenY = options.screenY;
+  e.shiftKey = options.shift;
+  e.keyCode = options.key;
+  e.charCode = options.key;
+  e.view = options.view;
   return e;
 }
 
