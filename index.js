@@ -17,20 +17,21 @@ module.exports = !!document.createEvent
  */
 
 var defaults = {
-  alt        : false,
-  bubbles    : true,
-  button     : 0,
-  cancelable : true,
-  clientX    : 0,
-  clientY    : 0,
-  ctrl       : false,
-  detail     : 1,
-  key        : 0,
-  meta       : false,
-  screenX    : 0,
-  screenY    : 0,
-  shift      : false,
-  view       : window
+  alt           : false,
+  bubbles       : true,
+  button        : 0,
+  cancelable    : true,
+  clientX       : 0,
+  clientY       : 0,
+  ctrl          : false,
+  detail        : 1,
+  key           : 0,
+  meta          : false,
+  relatedTarget : null,
+  screenX       : 0,
+  screenY       : 0,
+  shift         : false,
+  view          : window
 };
 
 
@@ -65,19 +66,20 @@ function createMouseEvent (type, options) {
   var e = document.createEvent('MouseEvent');
   e.initMouseEvent(
     type,
-    options.bubbles,    // bubbles?
-    options.cancelable, // cancelable?
-    options.view,       // view
-    options.detail,     // detail
-    options.screenX,    // screenX
-    options.screenY,    // screenY
-    options.clientX ,   // clientX
-    options.clientY,    // clientY
-    options.ctrl,       // ctrlKey
-    options.alt,        // altKey
-    options.shift,      // shiftKey
-    options.meta,       // metaKey
-    options.button      // button
+    options.bubbles,      // bubbles?
+    options.cancelable,   // cancelable?
+    options.view,         // view
+    options.detail,       // detail
+    options.screenX,      // screenX
+    options.screenY,      // screenY
+    options.clientX ,     // clientX
+    options.clientY,      // clientY
+    options.ctrl,         // ctrlKey
+    options.alt,          // altKey
+    options.shift,        // shiftKey
+    options.meta,         // metaKey
+    options.button,       // button
+    options.relatedTarget // relatedTarget
   );
   return e;
 }
