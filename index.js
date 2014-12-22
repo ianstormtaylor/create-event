@@ -120,6 +120,9 @@ function createKeyboardEvent (type, options) {
     Object.defineProperty(e, 'which', {
       get: function () { return options.key; }
     });
+    Object.defineProperty(e, 'shiftKey', {
+      get: function () { return options.shift; }
+    });
   }
 
   return e;
