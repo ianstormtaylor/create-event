@@ -1,3 +1,9 @@
+
+0.0.4 - December 23, 2014
+-------------------------
+
+  * keyboard: Support `shift: false`
+
 0.0.3 - October 17, 2013
 ------------------------
 * fixed event created in IE
