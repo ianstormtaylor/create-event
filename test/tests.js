@@ -144,6 +144,10 @@ describe('keydown', function () {
     assert(13 === e.keyCode);
   });
 
+  it('should support `shift: false`', function(){
+    var e = create('keydown', { key: 'tab', shift: false });
+    assert(!e.shiftKey);
+  });
 });
 
 describe('keyup', function () {
