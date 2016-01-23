@@ -111,23 +111,33 @@ function createKeyboardEvent (type, options) {
 
   // super hack: http://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key/10520017#10520017
   if (e.keyCode !== options.key) {
-    Object.defineProperty(e, 'keyCode', {
-      get: function () { return options.key; }
-    });
-    Object.defineProperty(e, 'charCode', {
-      get: function () { return options.key; }
-    });
-    Object.defineProperty(e, 'which', {
-      get: function () { return options.key; }
-    });
-    Object.defineProperty(e, 'shiftKey', {
-      get: function () { return options.shift; }
-    });
+    createGetter('keyCode', options.key);
+    createGetter('charCode', options.key);
+    createGetter('which', options.key);
+    createGetter('shiftKey', options.shift);
   }
 
   return e;
 }
 
+/**
+ * Set the behavior of an event's getters
+ *
+ * @param {String} property name
+ * @param {Object} value to return
+ */
+ function createGetter(property, returnValue) {
+     try {
+         Object.defineProperty(e, property, {
+           get: function () { return returnValue; }
+         });
+     }
+     catch(e) {
+         e.prototype.__defineGetter__(property, function () {
+             return returnValue;
+         });
+     }
+ }
 
 /**
  * Create an IE event. Surprisingly nicer API, eh?
