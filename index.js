@@ -1,13 +1,13 @@
 
 var extend = require('extend')
-  , keycode = require('keycode');
-
+var keycode = require('keycode');
+var type = require('./type');
 
 /**
  * Expose `createEvent`.
  */
 
-module.exports = !!document.createEvent
+module.exports = 4 != type
   ? createEvent
   : createIeEvent;
 

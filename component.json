@@ -12,5 +12,5 @@
   "development": {
     "component/assert": "*"
   },
-  "scripts": ["index.js"]
+  "scripts": ["index.js", "type.js"]
 }
